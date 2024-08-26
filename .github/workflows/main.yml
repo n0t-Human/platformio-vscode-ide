@@ -1,0 +1,27 @@
+name: Publish Extension
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Install VS Code Extension Tools
+        run: |
+          npm install -g @vscode/vsce
+      - run: npm ci
+      - name: Publish Extension
+        uses: HaaLeo/publish-vscode-extension@v1.6.2
+        with:
+          pat: ${{ secrets.PAT }}
+          registryUrl: https://marketplace.visualstudio.com
